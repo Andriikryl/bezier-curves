@@ -1,5 +1,6 @@
 const config = {
   waveSpeed: 1,
+  wavesToBlend: 4,
 };
 
 class waveNoise {
@@ -32,9 +33,12 @@ class Animation {
     this.cnv = null;
     this.ctx = null;
     this.size = { w: 0, h: 0, cx: 0, cy: 0 };
+    this.controls = [];
+    this.controlsNum = 3;
   }
   init() {
     this.createCanvas();
+    this.createControls();
     this.updateAnimation();
   }
   createCanvas() {
@@ -50,6 +54,14 @@ class Animation {
     this.size.cx = this.size.w / 2;
     this.size.cy = this.size.h / 2;
   }
+  createControls() {
+    for (let i = 0; i < this.controlsNum; ++i) {
+      let control = new waveNoise();
+      control.addWaves(config.wavesToBlend);
+      this.controls.push(control);
+    }
+  }
+
   updateCurves() {
     let curveParam = {
       startX: 0,
