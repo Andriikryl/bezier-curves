@@ -1,3 +1,7 @@
+const config = {
+  waveSpeed: 1,
+};
+
 class waveNoise {
   constructor() {
     this.waveSet = [];
@@ -17,7 +21,8 @@ class waveNoise {
   }
   update() {
     this.waveSet.forEach((e, i) => {
-      let r = Math.random() * (i + 1);
+      let r = Math.random() * (i + 1) * config.waveSpeed;
+      this.waveSet[i] += (e + r) % 360;
     });
   }
 }
