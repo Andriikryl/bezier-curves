@@ -6,6 +6,7 @@ class Animation {
   }
   init() {
     this.createCanvas();
+    this.updateAnimation();
   }
   createCanvas() {
     this.cnv = document.createElement(`canvas`);
@@ -45,6 +46,19 @@ class Animation {
   }) {
     this.ctx.strokeStyle = `white`;
     this.ctx.beginPath();
+    this.ctx.moveTo(startX, startY);
+    this.ctx.bezierCurveTo(
+      controlX1,
+      controlY1,
+      controlX2,
+      controlY2,
+      endX,
+      endY
+    );
+    this.ctx.stroke();
+  }
+  updateAnimation() {
+    this.updateCurves();
   }
 }
 
