@@ -65,12 +65,14 @@ class Animation {
   updateCurves() {
     let c = this.controls;
     let _controlX1 = c[0].getWave() * this.size.w;
+    let _controlY1 = c[1].getWave() * this.size.h;
+    let _controlX2 = c[2].getWave() * this.size.w;
     let curveParam = {
       startX: 0,
       startY: 0,
       controlX1: _controlX1,
-      controlY1: 0,
-      controlX2: this.size.cx,
+      controlY1: _controlY1,
+      controlX2: _controlX2,
       controlY2: this.size.h,
       endX: this.size.w,
       endY: this.size.h,
@@ -104,9 +106,15 @@ class Animation {
     this.ctx.fillStyle = `rgb(22, 22, 25)`;
     this.ctx.fillRect(0, 0, this.size.w, this.size.h);
   }
+
+  updateControls() {
+    this.controls.forEach((e) => e.update());
+  }
+
   updateAnimation() {
     this.updateCanvas();
     this.updateCurves();
+    this.updateControls();
     window.requestAnimationFrame(() => this.updateAnimation());
   }
 }
