@@ -8,7 +8,7 @@ class waveNoise {
     this.waveSet = [];
   }
   addWaves(requiredWaves) {
-    for (let i = 0; i < requiredWaves.length; ++i) {
+    for (let i = 0; i < requiredWaves; ++i) {
       let randomAngle = Math.random() * 360;
       this.waveSet.push(randomAngle);
     }
@@ -23,7 +23,7 @@ class waveNoise {
   update() {
     this.waveSet.forEach((e, i) => {
       let r = Math.random() * (i + 1) * config.waveSpeed;
-      this.waveSet[i] += (e + r) % 360;
+      this.waveSet[i] = (e + r) % 360;
     });
   }
 }
@@ -63,10 +63,12 @@ class Animation {
   }
 
   updateCurves() {
+    let c = this.controls;
+    let _controlX1 = c[0].getWave() * this.size.w;
     let curveParam = {
       startX: 0,
       startY: 0,
-      controlX1: this.size.cx,
+      controlX1: _controlX1,
       controlY1: 0,
       controlX2: this.size.cx,
       controlY2: this.size.h,
