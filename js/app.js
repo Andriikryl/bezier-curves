@@ -1,6 +1,7 @@
 const config = {
   waveSpeed: 1,
   wavesToBlend: 4,
+  curusNum: 40,
 };
 
 class waveNoise {
@@ -55,7 +56,7 @@ class Animation {
     this.size.cy = this.size.h / 2;
   }
   createControls() {
-    for (let i = 0; i < this.controlsNum; ++i) {
+    for (let i = 0; i < this.controlsNum + config.curusNum; ++i) {
       let control = new waveNoise();
       control.addWaves(config.wavesToBlend);
       this.controls.push(control);
@@ -67,17 +68,21 @@ class Animation {
     let _controlX1 = c[0].getWave() * this.size.w;
     let _controlY1 = c[1].getWave() * this.size.h;
     let _controlX2 = c[2].getWave() * this.size.w;
-    let curveParam = {
-      startX: 0,
-      startY: 0,
-      controlX1: _controlX1,
-      controlY1: _controlY1,
-      controlX2: _controlX2,
-      controlY2: this.size.h,
-      endX: this.size.w,
-      endY: this.size.h,
-    };
-    this.drawCurve(curveParam);
+
+    for (let i = 0; i < config.curusNum; ++i) {
+      let _controlY2 = c[3 + i].getWave() * this.size.h;
+      let curveParam = {
+        startX: 0,
+        startY: 0,
+        controlX1: _controlX1,
+        controlY1: _controlY1,
+        controlX2: _controlX2,
+        controlY2: _controlY2,
+        endX: this.size.w,
+        endY: this.size.h,
+      };
+      this.drawCurve(curveParam);
+    }
   }
   drawCurve({
     startX,
