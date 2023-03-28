@@ -70,16 +70,17 @@ class Animation {
     let _controlX2 = c[2].getWave() * this.size.w;
 
     for (let i = 0; i < config.curusNum; ++i) {
-      let _controlY2 = c[3 + i].getWave() * this.size.h;
+      let _controlY2 = c[3 + i].getWave();
       let curveParam = {
         startX: 0,
         startY: 0,
         controlX1: _controlX1,
         controlY1: _controlY1,
         controlX2: _controlX2,
-        controlY2: _controlY2,
+        controlY2: _controlY2 * this.size.h,
         endX: this.size.w,
         endY: this.size.h,
+        alpha: _controlY2,
       };
       this.drawCurve(curveParam);
     }
@@ -93,8 +94,9 @@ class Animation {
     controlY2,
     endX,
     endY,
+    alpha,
   }) {
-    this.ctx.strokeStyle = `white`;
+    this.ctx.strokeStyle = `rgb(255, 255, 255, ${alpha})`;
     this.ctx.beginPath();
     this.ctx.moveTo(startX, startY);
     this.ctx.bezierCurveTo(
