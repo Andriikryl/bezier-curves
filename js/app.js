@@ -1,3 +1,27 @@
+class waveNoise {
+  constructor() {
+    this.waveSet = [];
+  }
+  addWaves(requiredWaves) {
+    for (let i = 0; i < requiredWaves.length; ++i) {
+      let randomAngle = Math.random() * 360;
+      this.waveSet.push(randomAngle);
+    }
+  }
+  getWave() {
+    let blendedWave = 0;
+    for (let e of this.waveSet) {
+      blendedWave += Math.sin((e / 180) * Math.PI);
+    }
+    return (blendedWave / this.waveSet.length + 1) / 2;
+  }
+  update() {
+    this.waveSet.forEach((e, i) => {
+      let r = Math.random() * (i + 1);
+    });
+  }
+}
+
 class Animation {
   constructor() {
     this.cnv = null;
