@@ -100,8 +100,14 @@ class Animation {
     );
     this.ctx.stroke();
   }
+  updateCanvas() {
+    this.ctx.fillStyle = `rgb(22, 22, 25)`;
+    this.ctx.fillRect(0, 0, this.size.w, this.size.h);
+  }
   updateAnimation() {
+    this.updateCanvas();
     this.updateCurves();
+    window.requestAnimationFrame(() => this.updateAnimation());
   }
 }
 
