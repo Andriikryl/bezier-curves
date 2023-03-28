@@ -2,6 +2,7 @@ const config = {
   waveSpeed: 1,
   wavesToBlend: 4,
   curusNum: 40,
+  framesToMove: 120,
 };
 
 class waveNoise {
@@ -36,6 +37,9 @@ class Animation {
     this.size = { w: 0, h: 0, cx: 0, cy: 0 };
     this.controls = [];
     this.controlsNum = 3;
+    this.framesCounter = 0;
+    this.type4Start = 0;
+    this.type4End = 0;
   }
   init() {
     this.createCanvas();
@@ -73,13 +77,13 @@ class Animation {
       let _controlY2 = c[3 + i].getWave();
       let curveParam = {
         startX: 0,
-        startY: 0,
+        startY: this.getYplacementTime(this.type4Start, i),
         controlX1: _controlX1,
         controlY1: _controlY1,
         controlX2: _controlX2,
         controlY2: _controlY2 * this.size.h,
         endX: this.size.w,
-        endY: this.size.h,
+        endY: this.getYplacementTime(this.type4End, i),
         alpha: _controlY2,
       };
       this.drawCurve(curveParam);
@@ -118,7 +122,28 @@ class Animation {
     this.controls.forEach((e) => e.update());
   }
 
+  getYplacementTime(type, i) {
+    if (type > 0.6) {
+      return (this.size.h / config.curusNum) * i;
+    } else if (type > 0.4) {
+      return this.size.h;
+    } else if (type > 0.2) {
+      return this.size.cy;
+    } else {
+      return 0;
+    }
+  }
+
+  updateFrameCounter() {
+    this.framesCounter = (this.framesCounter + 1) % config.framesToMove;
+    if (this.framesCounter === 0) {
+      this.type4Start = Math.random();
+      this.type4End = Math.random();
+    }
+  }
+
   updateAnimation() {
+    this.updateFrameCounter();
     this.updateCanvas();
     this.updateCurves();
     this.updateControls();
